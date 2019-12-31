@@ -1,0 +1,34 @@
+{
+  "name": "mypets",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Harlan Cleiton",
+    "email": "harlancleiton@gmail.com",
+    "url": "https://github.com/harlancleiton"
+  },
+  "scripts": {
+    "ci:test": "lerna run ci:test",
+    "ci:deploy": "lerna run ci:deploy --since $TAG",
+    "test": "lerna run test"
+  },
+  "devDependencies": {
+    "lerna": "^3.18.3"
+  },
+  "workspaces": {
+    "packages": [
+      "server"
+    ],
+    "nohoist": [
+      "**/@nestjs",
+      "**/@nestjs/**",
+      "**/typeorm",
+      "**/typeorm/**",
+      "**/class-validator",
+      "**/class-validator/**",
+      "**/class-transformer",
+      "**/class-transformer/**"
+    ]
+  }
+}
