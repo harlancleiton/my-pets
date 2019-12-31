@@ -4,10 +4,15 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
+  BaseEntity,
 } from 'typeorm';
+import { hashSync } from 'bcryptjs';
+import { Exclude } from 'class-transformer';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -28,4 +33,13 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  hashPassword() {
+    this.password = hashSync(
+      this.password,
+      Number(process.env.PASS_SALT_ROUNDS),
+    );
+  }
 }
