@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import Joi = require('@hapi/joi');
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TypeOrmConfigService } from './config/type-orm-config.service';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -24,6 +27,11 @@ import { AppService } from './app.service';
         DB_DATABASE: Joi.string(),
       }),
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: TypeOrmConfigService,
+    }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
